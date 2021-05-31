@@ -78,27 +78,31 @@
         <ul>
             <li><a href="listarContrato">Contratos</a></li>
             <li><a href="listarCapacitacion">Capacitaciones</a></li>
-            <li><a href="asesoriaEspecial"class="active">Asesorias</a></li>
+            <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
-            <li><a href="servicioExtra">Servicios Extra</a></li>
-
+            <li><a href="listarLlamadas">Llamadas</a></li>
+            <li><a href="listadoAlerta">Alertas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
-        <h3>Ingresar Asesoria</h3>
+        <h3>Ingresar Asesoria</h3>  
         <div>
             <form action="asesoriaEspecial" method="POST">
                 <label>Fecha de Asesoria</label>
                 <input type="date" name="fAsesoria" required>
                 
                 <label>Tipo de Asesoria</label>
-                <input type="text" name="tAsesoria" placeholder="Ingrese el Tipo de Asesoria" required>
+                <select name="tAsesoria">
+                    <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
+                    <option value="Fiscalización">Fiscalización</option>
+                    <option value="Accidente">Accidente</option>
+                </select>
                 
                 <label>Cliente</label>
                 <select name="idCliente">
                     <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
                     <%    
                       //Mostrar Profesionales en ComboBox  
-                      String queryCliente = "SELECT RUT_CLIENTE, NOMBRE FROM CLIENTE ORDER BY NOMBRE";
+                      String queryCliente = "SELECT cl.RUT_CLIENTE, cl.NOMBRE FROM CLIENTE cl INNER JOIN CONTRATO co ON cl.rut_cliente = co.cliente_rut_cliente ORDER BY NOMBRE";
                       ResultSet rsCliente = st.executeQuery(queryCliente);
                       
                       while(rsCliente.next()){
