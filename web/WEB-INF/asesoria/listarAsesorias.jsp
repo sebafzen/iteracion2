@@ -37,64 +37,64 @@
                 background-color: #dddddd;
             }
             ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+            }
 
-        li {
-            float: left;
-        }
+            li {
+                float: left;
+            }
 
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
 
-        li a:hover:not(.active) {
-            background-color: #111;
-        }
+            li a:hover:not(.active) {
+                background-color: #111;
+            }
 
-        .active {
-            background-color: #4CAF50;
-        }
-        .btn-buscar,
-.btn-todos,
-.btn-crear {
-	
-	color: black;
-	border: 1px solid #fbfbf8;
-}
+            .active {
+                background-color: #4CAF50;
+            }
+            .btn-buscar,
+            .btn-todos,
+            .btn-crear {
 
-.btn-sgant {
-	background-color: #A1FF6A;
-	color: #020747;
-}
+                    color: black;
+                    border: 1px solid #fbfbf8;
+            }
 
-.btn-editar {
-	background: #93937f;
-	color: #fbfbf8;
-}
+            .btn-sgant {
+                    background-color: #A1FF6A;
+                    color: #020747;
+            }
 
-.btn-eliminar {
-	background: #bf270f;
-	color: #fbfbf8;
-}
+            .btn-editar {
+                    background: #93937f;
+                    color: #fbfbf8;
+            }
+
+            .btn-eliminar {
+                    background: #bf270f;
+                    color: #fbfbf8;
+            }
         </style>
     </head>
     <body>
         <ul>
             <li><a href="listarContrato">Contratos</a></li>
             <li><a href="listarCapacitacion">Capacitaciones</a></li>
-            <li><a href="listarAsesoria"class="active">Asesorias</a></li>
+            <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
-            <li><a href="servicioExtra">Servicios Extra</a></li>
-
+            <li><a href="listarLlamadas">Llamadas</a></li>
+            <li><a href="listadoAlerta">Alertas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion</a></li>
         </ul>
         <h2>Listado de Asesorias</h2>
