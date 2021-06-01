@@ -99,40 +99,58 @@
         </ul>
        <br>
         <a href="profesional">Home/ </a><a href="listarVisitas">Listado de visitas/ </a>
-        <h2>Listado de visitas</h2>
-        <div class="input-group mb-3">
-				
-			<a href="listarVisitas" class="btn btn-todos" >Ver todos</a>
-			<a href="visita" class="btn btn-crear ">Planificar visita</a>
-        </div>
+        <h2>Visita N°<%=request.getParameter("idVisitaSeleccionada")%></h2>
 	<table class="table table-sm table-striped">
             <thead>
             <tr>
-                <th>Descripción de la visita</th>
-                <th>Fecha de la visita</th>
-                <th>Opciones</th>
-                
-
+                <th>Descripción de la Visita</th>
+                <th>Fecha de la Visita</th>
+                <th>Cliente</th>
             </tr>
             </thead>
             <tbody>
-            <%  
-                    String idProfes = sesion.getAttribute("idProfesional").toString();
-                    String queryVisitas = "select v.id_visita,v.tipovisita,v.fechavisita,p.rut_profesional from visita v join profesional p on v.profesional_rut_profesional = p.rut_profesional WHERE p.rut_profesional = '"+idProfes+"'";
-                    ResultSet rsVisita = st.executeQuery(queryVisitas);                
-                    while(rsVisita.next()){
-                    java.sql.Date fechaVi = rsVisita.getDate("fechavisita");
+                <%  
+                    String idVisita = request.getParameter("idVisitaSeleccionada").toString();
+                    String queryVisitas = "SELECT v.tipovisita, v.fechavisita, cli.nombre FROM VISITA v INNER JOIN CLIENTE cli ON v.CLIENTE_RUT_CLIENTE = cli.RUT_CLIENTE WHERE v.ID_VISITA = '"+idVisita+"'";
+                    ResultSet rsVisitas = st.executeQuery(queryVisitas);                
+                    while(rsVisitas.next()){
+                    java.sql.Date fechaVi = rsVisitas.getDate("fechavisita");
                     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                     String fechaVis = dateFormat.format(fechaVi);
                 %>
                 <tr>
-                    <th><%= rsVisita.getString("tipovisita")%></th>
-                    <th><%= fechaVis%></th>
-                    <th>
-                        <a href="checklistVisita?idVisitaSeleccionada=<%=rsVisita.getInt("id_visita")%>">Crear checklist</a> | 
-                        <a href="detalleVisita?idVisitaSeleccionada=<%=rsVisita.getInt("id_visita")%>">Detalles Visita</a>
-                    </th>
-
+                    <th><%=rsVisitas.getString("tipovisita")%></th>
+                    <th><%=fechaVis%></th>
+                    <th><%=rsVisitas.getString("nombre")%></th>
+                </tr>
+                <%
+                    } 
+                %>
+            </tbody>
+        </table>
+        <br>
+        <h2>Checklist</h2>
+	<table class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Mejora</th>
+                <th>Fecha de Modificación</th>
+            </tr>
+            </thead>
+            <tbody>
+                <%  
+                    String queryVisitas2 = "SELECT chv.FECHACHECKLISTVISITA, chv.MEJORA, chv.FECHAMODIFICACION FROM CHECKLISTVISITA chv INNER JOIN VISITA v ON v.id_visita = chv.visita_id_visita WHERE v.id_visita = '"+idVisita+"'";
+                    ResultSet rsVisitas2 = st.executeQuery(queryVisitas2);                
+                    while(rsVisitas2.next()){
+                    java.sql.Date fechaVi = rsVisitas2.getDate("FECHACHECKLISTVISITA");
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    String fechaVis = dateFormat.format(fechaVi);
+                %>
+                <tr>
+                    <th><%=fechaVis%></th>
+                    <th><%=rsVisitas2.getString("MEJORA")%></th>
+                    <th><input type="date" name="fechaModificadaVisita"></th>
                 </tr>
                 <%
                     } 

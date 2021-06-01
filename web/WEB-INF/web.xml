@@ -112,6 +112,14 @@
         <servlet-name>detalleCapacitacion</servlet-name>
         <servlet-class>servlet.detalleCapacitacion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>detalleVisita</servlet-name>
+        <servlet-class>servlet.detalleVisita</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>detalleVisita</servlet-name>
+        <url-pattern>/detalleVisita</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>detalleCapacitacion</servlet-name>
         <url-pattern>/detalleCapacitacion</url-pattern>

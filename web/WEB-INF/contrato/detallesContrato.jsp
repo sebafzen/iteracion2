@@ -173,7 +173,7 @@
             </tbody>
         </table>
         <br><br>
-        <h3>Contrato</h3>
+        <h3>Servicio Extra</h3>
 	<table class="table table-sm table-striped">
             <thead>
             <tr>
