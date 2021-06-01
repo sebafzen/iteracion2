@@ -98,9 +98,8 @@
             <li style="float:right"><a href="logout">Cerrar Sesion</a></li>
         </ul>
         <br>
-        <a href="profesional">Home/ </a><a href="listarCapacitacion">Listado de capacitaciones/ </a>
-        <h2>Listado de Capacitaciones</h2>
-        <a href="agregarCapacitacion" class="btn btn-crear ">Agregar Capacitacion</a>
+        <a href="profesional">Home/ </a><a href="listarContrato">Listado de Capacitaciones/ </a><a href="detallesContrato">Detalle de Capacitación/ </a>
+        <h2>Capacitación N°<%=request.getParameter("idCapacitacionSeleccionada")%></h2>
         <br>
 	<table class="table table-sm table-striped">
             <thead>
@@ -108,36 +107,81 @@
                 <th>Fecha</th>
                 <th>Descripcion Capacitacion</th>
                 <th>Cliente</th>
-                <th>Opciones</th>
-                
-
             </tr>
             </thead>
             <tbody>
             <%  
-                    String idProfes = sesion.getAttribute("idProfesional").toString();
-                    String queryCapacitaciones = "SELECT c.id_capacitacion,c.fechacapacitacion,c.descripcioncapacitacion,cli.nombre,pro.nombreprofesional FROM CAPACITACION c INNER JOIN CLIENTE cli ON c.cliente_rut_cliente = cli.rut_cliente INNER JOIN PROFESIONAL pro ON c.profesional_rut_profesional = pro.rut_profesional WHERE pro.rut_profesional = '"+idProfes+"'";
+                    String idCapacitacion = request.getParameter("idCapacitacionSeleccionada").toString();
+                    String queryCapacitaciones = "SELECT ca.FECHACAPACITACION, ca.DESCRIPCIONCAPACITACION, cl.NOMBRE FROM CAPACITACION ca INNER JOIN CLIENTE cl ON ca.cliente_rut_cliente = cl.rut_cliente WHERE ca.id_capacitacion = '"+idCapacitacion+"'";
                     ResultSet rsCpacitacion = st.executeQuery(queryCapacitaciones);                
                     while(rsCpacitacion.next()){
-                    java.sql.Date fechaCap = rsCpacitacion.getDate("fechacapacitacion");
+                    java.sql.Date fechaCap = rsCpacitacion.getDate("FECHACAPACITACION");
                     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                     String fechaCapa = dateFormat.format(fechaCap);
                 %>
                 <tr>
                     <th><%= fechaCapa%></th>
-                    <th><%= rsCpacitacion.getString("descripcioncapacitacion")%></th>
-                    <th><%= rsCpacitacion.getString("nombre")%></th>
-                    <th>
-                        <a href="asistentes?idCapacitacionSeleccionada=<%=rsCpacitacion.getInt("id_capacitacion")%>">Agregar Asistentes</a> | 
-                        <a href="agregarMateriales?idCapacitacionSeleccionada=<%=rsCpacitacion.getInt("id_capacitacion")%>">Agregar Materiales</a> | 
-                        <a href="detalleCapacitacion?idCapacitacionSeleccionada=<%=rsCpacitacion.getInt("id_capacitacion")%>">Detalles de Capacitación</a> 
-                    </th>
-
+                    <th><%= rsCpacitacion.getString("DESCRIPCIONCAPACITACION")%></th>
+                    <th><%= rsCpacitacion.getString("NOMBRE")%></th>
                 </tr>
                 <%
                     } 
                 %>
             </tbody>
         </table>
+        <br>
+        <h2>Asistentes</h2>
+        <br>
+	<table class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th>Rut</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%  
+                    String queryCapacitaciones2 = "SELECT asi.RUT_ASISTENTE, asi.NOMBREASISTENTE, asi.APPATERNOASISTENTE, asi.APMATERNOASISTENTE FROM ASISTENTE asi INNER JOIN CAPACITACION ca ON asi.capacitacion_id_capacitacion = ca.id_capacitacion WHERE ca.id_capacitacion = '"+idCapacitacion+"'";
+                    ResultSet rsCpacitacion2 = st.executeQuery(queryCapacitaciones2);                
+                    while(rsCpacitacion2.next()){
+                %>
+                <tr>
+                    <th><%= rsCpacitacion2.getString("RUT_ASISTENTE")%></th>
+                    <th><%= rsCpacitacion2.getString("NOMBREASISTENTE")%></th>
+                    <th><%= rsCpacitacion2.getString("APPATERNOASISTENTE")%></th>
+                    <th><%= rsCpacitacion2.getString("APMATERNOASISTENTE")%></th>
+                </tr>
+                <%
+                    } 
+                %>
+            </tbody>
+        </table>  
+        <br>
+        <h2>Materiales</h2>
+        <br>
+	<table class="table table-sm table-striped">
+            <thead>
+            <tr>
+                <th>Material</th>
+                <th>Costo del Material</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%  
+                    String queryCapacitaciones3 = "SELECT ma.NOMBREMATERILES, ma.COSTOMATERIALES FROM MATERIAL ma INNER JOIN CAPACITACION ca ON ma.capacitacion_id_capacitacion = ca.id_capacitacion WHERE ca.id_capacitacion = '"+idCapacitacion+"'";
+                    ResultSet rsCpacitacion3 = st.executeQuery(queryCapacitaciones3);                
+                    while(rsCpacitacion3.next()){
+                %>
+                <tr>
+                    <th><%= rsCpacitacion3.getString("NOMBREMATERILES")%></th>
+                    <th>$<%= rsCpacitacion3.getInt("COSTOMATERIALES")%></th>
+                </tr>
+                <%
+                    } 
+                %>
+            </tbody>
+        </table>    
     </body>
 </html>

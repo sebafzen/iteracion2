@@ -94,4 +94,44 @@ public class ConexionBD {
         return rutCliente;
     }
     
+    public String obtenerNombreCliente(String email, String pass){
+        PreparedStatement pst;
+        ResultSet rs;
+        String nombreCliente = "";
+        String sql = "SELECT c.NOMBRE FROM CLIENTE c INNER JOIN USUARIO us ON us.ID_USUARIO = c.USUARIO_ID_USUARIO WHERE us.email = '"+email+"' AND us.password = '"+pass+"'";
+
+        try {
+            ConexionBD conec = new ConexionBD();
+            Connection conn = conec.conectar();
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                nombreCliente = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nombreCliente;
+    }
+    
+    public String obtenerNombreProfesional(String email, String pass){
+        PreparedStatement pst;
+        ResultSet rs;
+        String nombreProfesional = "";
+        String sql = "SELECT p.nombreprofesional || ' ' || p.apaterno || ' ' || p.amaterno AS \"NOMBRE\" FROM PROFESIONAL p INNER JOIN USUARIO us ON us.ID_USUARIO = p.USUARIO_ID_USUARIO WHERE us.email = '"+email+"' AND us.password = '"+pass+"'";
+
+        try {
+            ConexionBD conec = new ConexionBD();
+            Connection conn = conec.conectar();
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                nombreProfesional = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return nombreProfesional;
+    }
+    
 }

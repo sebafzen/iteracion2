@@ -89,11 +89,13 @@
             <li><a href="listarCapacitacion">Capacitaciones</a></li>
             <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
-            <li><a href="servicioExtra"class="active">Servicios Extra</a></li>
-            <li><a href="">Checklist</a></li>
+            
 
             <li style="float:right"><a href="logout">Cerrar Sesion</a></li>
         </ul>
+        <br>
+            <a href="profesional">Home/ </a><a href="listarContrato">Listado de contratos/ </a><a href="servicioExtra">Servicio extra</a>
+         
         <h3>Solicitar Servicio Extra</h3>
         <div>
             <form action="servicioExtra" method="POST">
@@ -102,7 +104,7 @@
                     <option value="sinAsignar">Sin Asignar</option>
                     <%    
                       //Mostrar Tipo Extra en ComboBox  
-                      String queryTipoExtra = "SELECT idTipoExtra, descripcion FROM TIPOEXTRA ORDER BY descripciion";
+                      String queryTipoExtra = "SELECT idTipoExtra, descripcion FROM TIPOEXTRA ORDER BY descripcion";
                       ResultSet rsTipoExtra = st.executeQuery(queryTipoExtra);
                       
                       while(rsTipoExtra.next()){
@@ -124,13 +126,27 @@
                 <label>Costo Servicio Extra</label>
                 <input type="text" name="costoExtra" required>
                 <br><br>
-
+               
+                <input type="hidden" name="idContrato" value="<%=request.getParameter("idContratoSeleccionado")%>">
+                
+                <label>Cliente</label>
+                <select name="rutCliente">
+                    <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
+                    <%    
+                      //Mostrar Profesionales en ComboBox  
+                      String queryCliente = "SELECT cl.RUT_CLIENTE, cl.NOMBRE FROM CLIENTE cl INNER JOIN CONTRATO co ON cl.rut_cliente = co.cliente_rut_cliente ORDER BY NOMBRE";
+                      ResultSet rsCliente = st.executeQuery(queryCliente);
+                      
+                      while(rsCliente.next()){
+                    %>
+                        <option value="<%=rsCliente.getString("RUT_CLIENTE")%>"><%=rsCliente.getString("NOMBRE")%></option>
+                    <%
+                      } 
+                    %>
+                </select>
+                
                 <input type="submit" value="Crear Servicio Extra">
             </form>
-            <h3>${mensaje}</h3>
-            <c:forEach items="${mensajes}" var="mensaje">
-                <h3>${mensaje}</h3>
-            </c:forEach>
         </div>
     </body>
 </html>

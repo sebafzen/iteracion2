@@ -45,12 +45,16 @@ public class login extends HttpServlet {
             sesion.setAttribute("Tipousuario", tipoUser);
             String idProfesional = conec.obtenerIdProfesional(email, pass);
             sesion.setAttribute("idProfesional", idProfesional);
+            String nomProfesional = conec.obtenerNombreProfesional(email, pass);
+            sesion.setAttribute("nombreProfesional", nomProfesional);
             response.sendRedirect("profesional");
         }else if(tipoUser == 3){
             sesion.setAttribute("email", email);
             sesion.setAttribute("Tipousuario", tipoUser);
             String idCliente = conec.obtenerIdCliente(email, pass);
             sesion.setAttribute("idCliente", idCliente);
+            String nomCliente = conec.obtenerNombreCliente(email, pass);
+            sesion.setAttribute("nombreCliente", nomCliente);
             response.sendRedirect("cliente");
         }
         if(request.getParameter("cerrar") != null){

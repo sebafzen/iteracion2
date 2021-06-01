@@ -1,10 +1,8 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
-<%@page import="ConexionconBD.ConexionBD"%>
+<%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -39,11 +37,11 @@
                 background-color: #dddddd;
             }
             ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
             }
 
             li {
@@ -96,43 +94,35 @@
             <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
             <li><a href="listarLlamadas">Llamadas</a></li>
-            <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
+            <li style="float:right"><a href="logout">Cerrar Sesion</a></li>
         </ul>
         <br>
-        <a href="profesional">Home/ </a><a href="listarContrato">Listado de contratos/ </a>
-        <h2>Listado de Contratos</h2>
-        <div class="input-group mb-3">				
-            <a href="agregarContrato" class="btn btn-crear ">Crear Contrato</a>
-        </div>
-        <table class="table table-sm table-striped">
+        <a href="profesional">Home/ </a><a href="listarLlamadas">Listado de llamadas/ </a>
+        <h2>Listado de Alertas</h2>
+        <a href="registrarLlamada" class="btn btn-crear ">Registrar Llamada</a>
+        <br><br>
+	<table class="table table-sm table-striped">
             <thead>
-            <tr>
-                <th>Fecha Inicio</th>
-                <th>Fecha Vencimiento</th>
-                <th>Cliente</th>
-                <th>Opciones</th>
-            </tr>
+                <tr>
+                    <th>Fecha de Alerta</th>
+                    <th>Descripción</th>
+                    <th>Cliente</th>
+                </tr>
             </thead>
             <tbody>
                 <%  
                     String idProfes = sesion.getAttribute("idProfesional").toString();
-                    String queryContratos = "SELECT co.ID_CONTRATO, co.FECHAINICIO, co.FECHATERMINO, NOMBRE FROM CONTRATO co INNER JOIN CLIENTE cli ON co.cliente_rut_cliente = cli.rut_cliente INNER JOIN PROFESIONAL pro ON co.profesional_rut_profesional = pro.rut_profesional WHERE pro.rut_profesional = '"+idProfes+"'";
-                    ResultSet rsContrato = st.executeQuery(queryContratos);                
-                    while(rsContrato.next()){
-                    java.sql.Date fechaIni = rsContrato.getDate("FECHAINICIO");
-                    java.sql.Date fechaTer = rsContrato.getDate("FECHATERMINO");
+                    String queryCapacitaciones = "select ll.FECHALLAMADA, ll.DESCRIPCIONLLAMADA, cl.NOMBRE from llamada ll INNER JOIN CLIENTE cl ON ll.cliente_rut_cliente = cl.rut_cliente WHERE ll.profesional_rut_profesional = '"+idProfes+"'";
+                    ResultSet rsLlamadas = st.executeQuery(queryCapacitaciones);                
+                    while(rsLlamadas.next()){
+                    java.sql.Date fechaLla = rsLlamadas.getDate("FECHALLAMADA");
                     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    String fechaIn = dateFormat.format(fechaIni);
-                    String fechaTe = dateFormat.format(fechaTer);
+                    String fechaLlam = dateFormat.format(fechaLla);
                 %>
                 <tr>
-                    <td><%=fechaIn%></td>
-                    <td><%=fechaTe%></td>
-                    <td><%=rsContrato.getString("NOMBRE")%></td>
-                    <th>
-                        <a href="detallesContrato?idContrato=<%=rsContrato.getInt("ID_CONTRATO")%>">Detalles del Contrato</a> | 
-                        <a href="servicioExtra?idContratoSeleccionado=<%=rsContrato.getInt("ID_CONTRATO")%>">Agregar Servicio Extra</a>
-                    </th>
+                    <th><%= fechaLlam%></th>
+                    <th><%= rsLlamadas.getString("DESCRIPCIONLLAMADA")%></th>
+                    <th><%= rsLlamadas.getString("NOMBRE")%></th>
                 </tr>
                 <%
                     } 

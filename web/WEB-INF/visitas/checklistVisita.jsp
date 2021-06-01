@@ -1,8 +1,3 @@
-<%-- 
-    Document   : checklistVisita
-    Created on : 25-05-2021, 14:04:10
-    Author     : norar
---%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.sql.DriverManager"%>
@@ -15,42 +10,47 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        
-        <%
-            Class.forName("oracle.jdbc.OracleDriver").newInstance();
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "sebafzen", "duoc");
-            Statement st = con.createStatement();
-            HttpSession sesion = request.getSession();
-        %>
-        
-        <style>
-            body{
+    <style>
+        body{
                 background-color: #EBFBE8;
             }
-            table {
-                font-family: arial, sans-serif;
-                border-collapse: collapse;
-                width: 80%;
-            }
+         input[type=text],input[type=password],input[type=number],input[type=email], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-            td, th {
-                border: 1px solid #dddddd;
-                text-align: left;
-                padding: 8px;
-            }
+        input[type=submit] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-            tr:nth-child(even) {
-                background-color: #dddddd;
-            }
-            ul {
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
             background-color: #333;
         }
-
         li {
             float: left;
         }
@@ -70,79 +70,34 @@
         .active {
             background-color: #4CAF50;
         }
-        .btn-buscar,
-.btn-todos,
-.btn-crear {
-	
-	color: black;
-	border: 1px solid #fbfbf8;
-}
-
-.btn-sgant {
-	background-color: #A1FF6A;
-	color: #020747;
-}
-
-.btn-editar {
-	background: #93937f;
-	color: #fbfbf8;
-}
-
-.btn-eliminar {
-	background: #bf270f;
-	color: #fbfbf8;
-}
-        </style>
-    </head>
+    </style>
     <body>
         <ul>
             <li><a href="listarContrato">Contratos</a></li>
             <li><a href="listarCapacitacion">Capacitaciones</a></li>
             <li><a href="listarAsesoria">Asesorias</a></li>
-            <li><a href="listarVisitas"class="active">Visitas</a></li>
+            <li><a href="listarVisitas">Visitas</a></li>
+            <li><a href="listarLlamadas">Llamadas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
-        
-        <h3>Checklist Visita</h3>
+        <br>
+        <a href="profesional">Home/ </a><a href="listarVisitas">Listado de visitas/ </a><a href="checklistVisita">Checklist visita/ </a>
+        <h3>Registrar Checklist Visita</h3>
         <div>
             <form action="checklistVisita" method="POST">
-                <label>Fecha Checklist Visita</label>
-                <input type="date" name="fechaChecklistVisita" required>
+                <label>Fecha Visita</label>
+                <input type="date" name="fecha_visita" required>
                 <br><br>
-                
-                <label>Mejoras</label>
+                <label>Mejora</label>
                 <input type="text" name="mejora" required>
                 <br><br>
+                <input type="hidden" name="idVisita" value="<%=request.getParameter("idVisitaSeleccionada")%>">
                 
-                <label>Estado Checklist</label>
-                <input type="text" name="estadoChecklist" required>
-                <br><br>
-                
-                <label>Fecha Modificacion</label>
-                <input type="date" name="fechaModificacion" required>
-                <br><br>
-                
-                <label>Visita</label>
-                <select name="id_visita">
-                    <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
-                    <%    
-                      //Mostrar Visityas en ComboBox  
-                      String queryVisita = "SELECT id_visita, tipoVisita, Cliente_rut_cliente FROM visita ORDER BY cliente_rut_cliente";
-                      ResultSet rsVisita = st.executeQuery(queryVisita);
-                      
-                      while(rsVisita.next()){
-                    %>
-                        <option value="<%=rsVisita.getString("id_visita")%>"><%=rsVisita.getString("cliente_rut_cliente")%></option>
-                    <%
-                      } 
-                    %>
-                </select>
-                
-                <input type="submit" value="Crear Checklist Visita">
+                <input type="submit" value="Crear checklist">
             </form>
             <h3>${mensaje}</h3>
             <c:forEach items="${mensajes}" var="mensaje">
-            <h3>${mensaje}</h3>
+                <h3>${mensaje}</h3>
             </c:forEach>
         </div>
     </body>

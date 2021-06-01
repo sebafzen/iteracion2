@@ -36,7 +36,7 @@ public class asesoriaEspecial extends HttpServlet {
         
         HttpSession sesion = request.getSession();
         
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         
         String fechaAse = request.getParameter("fAsesoria");
         

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : crearAccidente
-    Created on : 08-05-2021, 20:50:44
-    Author     : norar
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -70,30 +65,22 @@
     </style>
     <body>
         <ul>
-            <li><a href="generarPago">Pagos</a></li>
-            <li><a href="crearAccidente"class="active">Accidentes</a></li>
-            <li><a href="asesoriaExtra" >Asesorias</a></li>
-            
-
+            <li><a href="cliente">Inicio</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
         <h3>Reportar Accidente</h3>
         <div>
             <form action="crearAccidente" method="POST">
-                <label>Descripcion Accidente</label>
-                <input type="text" name="descripcionAccidente"
-                <br><br>
+                <label>Descripcion</label>
+                <input type="text" name="txtDescAccidente" placeholder="Escriba descripción del accidente" required>
+                <br>
                 
-                <label>Fecha</label>
-                <input type="text" name="fechaAccidente" disabled>
-                <br><br>   
-
-                <input type="submit" value="ReportarAccidente">
+                <label>¿Cuando tuvo el accidente?</label>
+                <input type="date" name="dfechaAccidente" required>
+                <br>
+                
+                <input type="submit" value="Reportar Accidente">
             </form>
-            <h3>${mensaje}</h3>
-            <c:forEach items="${mensajes}" var="mensaje">
-                <h3>${mensaje}</h3>
-            </c:forEach>
         </div>
     </body>
 </html>

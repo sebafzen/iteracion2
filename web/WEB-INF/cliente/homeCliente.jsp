@@ -94,7 +94,7 @@
         </ul>
         
         <div class="input-group mb-3">
-            <h1>Bienvenido <%=sesion.getAttribute("idCliente")%></h1>
+            <h1>Bienvenido <%=sesion.getAttribute("nombreCliente")%></h1>
             <br>
             
             <h3>Contrato</h3>

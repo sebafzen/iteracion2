@@ -1,8 +1,11 @@
-<%-- 
-    Document   : asistentes
-    Created on : 08-05-2021, 20:07:18
-    Author     : norar
---%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="ConexionconBD.ConexionBD"%>
+<%@page import="java.sql.Connection"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -70,18 +73,20 @@
     </style>
     <body>
         <ul>
-            <li><a href="listarCapacitacion"class="active">Capacitaciones</a></li>
+            <li><a href="listarContrato">Contratos</a></li>
+            <li><a href="listarCapacitacion">Capacitaciones</a></li>
             <li><a href="listarAsesoria">Asesorias</a></li>
-            <li><a href="servicioExtra">Servicios Extra</a></li>
-            <li><a href="">Checklist</a></li>
-
+            <li><a href="listarVisitas">Visitas</a></li>
+            <li><a href="listarLlamadas">Llamadas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
+        <br>
+        <a href="profesional">Home/ </a><a href="listarCapacitacion">Listado de capacitaciones/ </a><a href="asistentes">Ingresar asistente/ </a>
         <h3>Crear Asistente</h3>
         <div>
             <form action="asistentes" method="POST">
                 <label>Rut</label>
-                <input type="text" name="rut" required>
+                <input type="text" name="rut" maxlength="9" placeholder="Ejemplo 191394321" required>
                 
                 <label>Nombre</label>
                 <input type="text" name="nombre" required>
@@ -92,7 +97,9 @@
                 <label>Apellido Materno</label>
                 <input type="text" name="apMaternoAsistente" required>
                 <br><br>   
-
+                
+                <input type="hidden" name="idCapacitacion" value="<%=request.getParameter("idCapacitacionSeleccionada")%>">
+                
                 <input type="submit" value="Generar Asistente">
             </form>
             <h3>${mensaje}</h3>
@@ -100,8 +107,5 @@
                 <h3>${mensaje}</h3>
             </c:forEach>
         </div>
-    </body>
-    <body>
-        <h1>Hello World!</h1>
     </body>
 </html>

@@ -94,9 +94,10 @@
             <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
             <li><a href="listarLlamadas">Llamadas</a></li>
-            <li><a href="listadoAlerta">Alertas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion</a></li>
         </ul>
+        <br>
+        <a href="profesional">Home/ </a><a href="listarAsesoria">Listado de asesorias/ </a>
         <h2>Listado de Asesorias</h2>
         <div class="input-group mb-3">
             <a href="asesoriaEspecial" class="btn btn-crear ">Agregar Asesoria</a>
@@ -123,7 +124,8 @@
                     <th><%= fechaAs%></th>
                     <th><%= rsAsesoria.getString("TIPOASESORIA")%></th>
                     <th>
-                        <a href="checklistAsesoria?idAsesoriaSeleccionada=<%=rsAsesoria.getInt("ID_ASESORIA")%>">Ver CheckList</a>
+                        <a href="checklistAsesoria?idAsesoriaSeleccionada=<%=rsAsesoria.getInt("ID_ASESORIA")%>">Generar CheckList</a> | 
+                        <a href="detallesAsesoria?idAsesoriaSeleccionada=<%=rsAsesoria.getInt("ID_ASESORIA")%>">Detalles de Asesoria</a>
                     </th>
                 </tr>
                 <%
@@ -131,10 +133,5 @@
                 %>
             </tbody>
         </table>
-        <div class="clearfix"></div>
-	<hr>
-	<div class="text-right">
-	<a href="?page=1" class="btn btn-sgant" rel="next">Siguiente →</a>
-	</div>
     </body>
 </html>

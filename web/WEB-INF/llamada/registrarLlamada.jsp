@@ -1,7 +1,8 @@
+<%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="java.sql.ResultSet"%>
+<%@page session="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,10 +15,11 @@
     %>
     
     <style>
+        
         body{
                 background-color: #EBFBE8;
             }
-         input[type=text],input[type=password],input[type=number],input[type=date], select {
+         input[type=text],input[type=password],input[type=number],input[type=email], select {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -75,31 +77,38 @@
         }
     </style>
     <body>
+        <%
+            HttpSession sesion = request.getSession();
+            String email;
+            String pass;
+                
+            if(sesion.getAttribute("email") != null && sesion.getAttribute("pass") != null){
+                email = sesion.getAttribute("email").toString();
+                pass = sesion.getAttribute("pass").toString();
+            }
+        %>
         <ul>
             <li><a href="listarContrato">Contratos</a></li>
             <li><a href="listarCapacitacion">Capacitaciones</a></li>
             <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
             <li><a href="listarLlamadas">Llamadas</a></li>
-            <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
+            <li style="float:right"><a href="logout">Cerrar Sesion</a></li>
         </ul>
         <br>
-        <a href="profesional">Home/ </a><a href="listarAsesoria">Listado de asesorias/ </a><a href="asesoriaEspecial">Planificar asesoria/ </a>
-        <h3>Ingresar Asesoria</h3>  
+        <a href="profesional">Home/ </a><a href="listarLlamadas">Listado de llamadas/ </a><a href="registrarLlamada">Registar llamada/ </a>
+        <h3>Registrar Llamada</h3>
+
         <div>
-            <form action="asesoriaEspecial" method="POST">
-                <label>Fecha de Asesoria</label>
-                <input type="date" name="fAsesoria" required>
-                
-                <label>Tipo de Asesoria</label>
-                <select name="tAsesoria">
-                    <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
-                    <option value="Fiscalización">Fiscalización</option>
-                    <option value="Accidente">Accidente</option>
-                </select>
-                
+            <form action="registrarLlamada" method="POST">
+                <label>Fecha de Llamada</label>
+                <br><br>
+                <input type="date" name="fLlamada" required>
+                <br><br>
+                <label>Descripcion de Llamada</label>
+                <input type="text" name="descLlamada" placeholder="Escriba la Descripción de la Llamada" required>
                 <label>Cliente</label>
-                <select name="idCliente">
+                <select name="id_cliente">
                     <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
                     <%    
                       //Mostrar Profesionales en ComboBox  
@@ -113,9 +122,9 @@
                       } 
                     %>
                 </select>
-                <br><br>   
-
-                <input type="submit" value="Ingresar Asesoria">
+                <br><br>
+                
+                <input type="submit" value="Registrar Llamada">
             </form>
         </div>
     </body>

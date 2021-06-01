@@ -1,9 +1,3 @@
-<%-- 
-    Document   : agregarMateriales
-    Created on : 24-05-2021, 22:55:43
-    Author     : norar
---%>
-
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.DriverManager"%>
@@ -18,7 +12,7 @@
         Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "sebafzen", "duoc");
         Statement st = con.createStatement();
     %>
-        <style>
+    <style>
         body{
                 background-color: #EBFBE8;
             }
@@ -93,13 +87,14 @@
         
         <ul>
             <li><a href="listarContrato">Contratos</a></li>
-            <li><a href="listarCapacitacion"class="active">Capacitaciones</a></li>
+            <li><a href="listarCapacitacion">Capacitaciones</a></li>
             <li><a href="listarAsesoria">Asesorias</a></li>
-            <li><a href="servicioExtra">Servicios Extra</a></li>
-            <li><a href="">Checklist</a></li>
+            <li><a href="listarVisitas">Visitas</a></li>
+            <li><a href="listarLlamadas">Llamadas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
-        
+        <br>
+        <a href="profesional">Home/ </a><a href="listarCapacitacion">Listado de capacitaciones/ </a><a href="agregarMateriales">Agregar materiales/ </a>
         <h3>Agregar Materiales</h3>
         
         <div>
@@ -112,21 +107,8 @@
                 <input type="text" name="costoMateriales" required>
                 <br><br>
                 
-                <label>Capacitacion</label>
-                <select name="id_capacitacion">
-                    <option value="sinAsignar" disabled selected hidden>Sin Asignar</option>
-                    <%    
-                      //Mostrar Capacitaciones en ComboBox  
-                      String queryCapacitacion = "SELECT id_capacitacion, descripcionCapacitacion FROM capacitacion ORDER BY descripcionCapacitacion";
-                      ResultSet rsCapacitacion = st.executeQuery(queryCapacitacion);
-                      
-                      while(rsCapacitacion.next()){
-                    %>
-                        <option value="<%=rsCapacitacion.getString("id_capacitacion")%>"><%=rsCapacitacion.getString("descripcionCapacitacion")%></option>
-                    <%
-                      } 
-                    %>
-                </select>
+               <input type="hidden" name="idCapacitacion" value="<%=request.getParameter("idCapacitacionSeleccionada")%>">
+                
                 <input type="submit" value="Crear Materiales">
             </form>
                 <h3>${mensaje}</h3>

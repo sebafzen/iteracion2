@@ -2,13 +2,17 @@ package servlet;
 
 import ConexionconBD.ConexionBD;
 import java.io.IOException;
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +40,16 @@ public class agregarContrato extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar c = Calendar.getInstance();
+
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        Date today = c.getTime();
+        
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         
         String fechaIn = request.getParameter("fInicio");
         String fechaTe = request.getParameter("fVencimiento");
@@ -66,19 +79,25 @@ public class agregarContrato extends HttpServlet {
         ConexionBD conec = new ConexionBD();
         Connection conn = conec.conectar(); 
         
-        try{  
-            CallableStatement cst = conn.prepareCall("{call RegistrarContrato(?,?,?,?,?,?)}");
-            cst.setDate(1, fechaInicio);
-            cst.setDate(2, fechaTermino);
-            cst.setString(3, "T");
-            cst.setString(4, idCliente); 
-            cst.setString(5, IdProf);
-            cst.setInt(6, planServicio); 
-            cst.executeUpdate(); 
-        }catch(SQLException ex){
-            System.out.println("Error de SQL" + ex);
+        if(fechaIni.before(today)){
+            request.setAttribute("errorFechaContrato", "error");
+            response.sendRedirect("agregarContrato");
+        }else{
+            try{  
+                CallableStatement cst = conn.prepareCall("{call RegistrarContrato(?,?,?,?,?,?)}");
+                cst.setDate(1, fechaInicio);
+                cst.setDate(2, fechaTermino);
+                cst.setString(3, "T");
+                cst.setString(4, idCliente); 
+                cst.setString(5, IdProf);
+                cst.setInt(6, planServicio); 
+                cst.executeUpdate(); 
+            }catch(SQLException ex){
+                System.out.println("Error de SQL" + ex);
+            }
+            response.sendRedirect("listarContrato");
         }
-        response.sendRedirect("listarContrato");
+
     }
 
     @Override

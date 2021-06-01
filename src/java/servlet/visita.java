@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(name = "servicioExtra", urlPatterns = {"/servicioExtra"})
-public class servicioExtra extends HttpServlet {
+@WebServlet(name = "visita", urlPatterns = {"/visita"})
+public class visita extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
@@ -28,50 +28,46 @@ public class servicioExtra extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("WEB-INF/servicioExtra.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/visitas/visita.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
+        
         SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         
-        String fechaEx = request.getParameter("fechaExtra");
-        
-        java.util.Date fechaExtr = null;
+        String fechaVi = request.getParameter("fechaVisita");
+      
+        java.util.Date fechaVis = null;
         try {
-            fechaExtr = formatoFecha.parse(fechaEx);
+            fechaVis = formatoFecha.parse(fechaVi);
         } catch (ParseException ex) {
-            Logger.getLogger(servicioExtra.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(visita.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        java.sql.Date FECHAEXTRA = new java.sql.Date(fechaExtr.getTime());   
-    
-        int IdTpEx = Integer.parseInt(request.getParameter("idTipoExtra"));
-        String descEx = request.getParameter("descripcionExtra");
-        String costoExtra = request.getParameter("costoExtra");
-        int IdCon = Integer.parseInt(request.getParameter("idContrato"));
-        String rutCli = request.getParameter("rutCliente");
+        
+        java.sql.Date FECHAVISITA = new java.sql.Date(fechaVis.getTime());      
+        
+        String idCliente = request.getParameter("id_cliente");
+        String tipVisita = request.getParameter("tipoVisita");
+        String IdProf = sesion.getAttribute("idProfesional").toString();
         
         ConexionBD conec = new ConexionBD();
         Connection conn = conec.conectar(); 
         
         try{  
-            CallableStatement cst = conn.prepareCall("{call RegistrarServicioExtra(?,?,?,?,?,?)}");
-            
-            cst.setString(1,descEx );
-            cst.setDate(2, FECHAEXTRA);
-            cst.setString(3, costoExtra);
-            cst.setInt(4,IdCon);
-            cst.setInt(5, IdTpEx);
-            cst.setString(6, rutCli);
-            cst.executeUpdate();
+            CallableStatement cst = conn.prepareCall("{call RegistrarVisita(?,?,?,?)}");
+            cst.setString(1, tipVisita);
+            cst.setDate(2, FECHAVISITA);
+            cst.setString(3, idCliente); 
+            cst.setString(4, IdProf);
+            cst.executeUpdate(); 
             
         }catch(SQLException ex){
             System.out.println("Error de SQL" + ex);
         }
-        response.sendRedirect("listarContrato");
+        response.sendRedirect("listarVisitas");
     }
 
     @Override

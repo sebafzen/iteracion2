@@ -36,7 +36,7 @@ public class checklistAsesoria extends HttpServlet {
         
         HttpSession sesion = request.getSession();
         
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
         
         String fechaChAs = request.getParameter("fechaChecklistAsesoria");
         

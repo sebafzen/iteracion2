@@ -13,13 +13,14 @@
         Class.forName("oracle.jdbc.OracleDriver").newInstance();
         Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "sebafzen", "duoc");
         Statement st = con.createStatement();
+        
     %>
     
     <style>
         body{
                 background-color: #EBFBE8;
-            }
-         input[type=text],input[type=password],input[type=number],input[type=email], select {
+        }
+        input[type=text],input[type=password],input[type=number],input[type=email], select {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -88,13 +89,15 @@
             }
         %>
         <ul>
-            <li><a href="listarContrato"class="active">Contratos</a></li>
+            <li><a href="listarContrato">Contratos</a></li>
             <li><a href="listarCapacitacion">Capacitaciones</a></li>
             <li><a href="listarAsesoria">Asesorias</a></li>
-            <li><a href="servicioExtra">Servicios Extra</a></li>
-            <li><a href="">Checklist</a></li>
+            <li><a href="listarVisitas">Visitas</a></li>
+            <li><a href="listarLlamadas">Llamadas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
+         <br>
+        <a href="profesional">Home/ </a><a href="listarContrato">Listado de contratos/ </a><a href="agregarContrato">Crear contrato/ </a>
         <h3>Agregar Contrato</h3>
 
         <div>
@@ -135,14 +138,9 @@
                       } 
                     %> 
                 </select>
-
-                <input type="submit" value="Crear Contrato">
-            </form>
-            <h3>${mensaje}</h3>
-            <c:forEach items="${mensajes}" var="mensaje">
-                <h3>${mensaje}</h3>
-            </c:forEach>
+                <br>
+                <input type="submit" name="agregarContra" value="Crear Contrato">
+            </form>   
         </div>
-
     </body>
 </html>

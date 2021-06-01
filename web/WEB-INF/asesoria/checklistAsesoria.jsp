@@ -96,10 +96,10 @@
             <li><a href="listarAsesoria">Asesorias</a></li>
             <li><a href="listarVisitas">Visitas</a></li>
             <li><a href="listarLlamadas">Llamadas</a></li>
-            <li><a href="listadoAlerta">Alertas</a></li>
             <li style="float:right"><a href="logout">Cerrar Sesion ${nombre}</a></li>
         </ul>
-        
+        <br>
+        <a href="profesional">Home/ </a><a href="listarAsesoria">Listado de asesoria/ </a><a href="checklistAsesoria">Checklist asesoria/ </a>
         <h3>Checklist Asesoria</h3>
         <div>
             <form action="checklistAsesoria" method="POST">
@@ -115,10 +115,6 @@
                 
                 <label>Mejoras</label>
                 <input type="text" name="mejoraCheckListAsesoria" required>
-                <br><br>
-                
-                <label>Fecha Modificacion</label>
-                <input type="date" readonly="true" name="fechaModificacion" required>
                 <br><br>
                 
               <input type="submit" value="Ingresar Checklist">
